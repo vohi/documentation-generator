@@ -124,12 +124,11 @@ def processFile(markdown, config):
 			new_markdown_lines += markdown_line
 			
 	if write_changes == True:
-		new_markdown_filename = markdown_dir + "/new_" + markdown_name
+		new_markdown_filename = config["output_directory"] + os.path.basename(markdown_name)
 		new_markdown_file = open(new_markdown_filename, 'w')
 		for line in new_markdown_lines:
 			new_markdown_file.write(line)
 		new_markdown_file.close()
-		os.rename(new_markdown_filename,markdown)
 
 def promise_attribute(parameters, config):
 	lines = []

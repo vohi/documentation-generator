@@ -244,8 +244,8 @@ def applyLinkMap(file_name, config):
 		previous_empty = markdown_line.lstrip() == ""
 		
 	if write_changes:
-		markdown_file = open(file_name + ".new", "w")
+		out_file_name = config["output_directory"] + os.path.basename(file_name)
+		markdown_file = open(out_file_name, "w")
 		for new_line in new_lines:
 			markdown_file.write(new_line)
 		markdown_file.close()
-		os.rename(file_name + ".new", file_name)

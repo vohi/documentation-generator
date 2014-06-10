@@ -37,10 +37,16 @@ def validate():
 	config["project_directory"] = config["WORKDIR"] + "/documentation-generator"
 	if not os.path.exists(config["project_directory"]):
 		print "Directory 'documentation-generator' not found in WORKDIR"
-	
+
 	config["markdown_directory"] = config["WORKDIR"] + "/documentation"
 	if not os.path.exists(config["markdown_directory"]):
 		print "Directory 'documentation' not found in WORKDIR"
+
+	# terminate with "/" for easier string concatenation in code
+	config["output_directory"] = config["project_directory"] + "/pages/"
+	if not os.path.exists(config["output_directory"]):
+		print "Creating directory for output files at '%s'" % config["output_directory"]
+		os.mkdir(config["output_directory"])
 
 	config["include_directories"] = []
 	config["include_directories"].append(config["WORKDIR"])
@@ -73,7 +79,7 @@ def validate():
 	print 'cfdoc_environment: cwd              = ' + os.getcwd()
 	print '                   config           = '
 	print config
-		
+
 	config["syntax_path"] = config["project_directory"] + "/_json/syntax_map.json"
 	config["syntax_map"] = json.load(open(config["syntax_path"], 'r'))
 	

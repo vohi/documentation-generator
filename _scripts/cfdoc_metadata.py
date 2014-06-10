@@ -23,6 +23,7 @@
 import os
 import sys
 import cfdoc_qa as qa
+import cfdoc_environment as environment
 from os import listdir
 from os.path import isfile, join
 from string import ascii_letters, digits
@@ -47,6 +48,13 @@ def run(config):
 		if parent_branch == None: # gaps
 			print "ERROR: Missing index file '%s.markdown'" % (branch)
 			exit(2)
+	
+	# this has created copies of all files in output_directory - which is now the input for
+	# all following steps
+	markdown_files = []
+	config["markdown_directory"] = config["output_directory"]
+	environment.scanDirectory(config["markdown_directory"], "", ".markdown", markdown_files)
+	config["markdown_files"] = markdown_files
 
 # parse meta data lines, remove existing header for later reconstruction
 def parseHeader(lines):
@@ -116,7 +124,7 @@ def processMetaData(file_path, config):
 	
 	alias = alias.replace("/", "-").lower()
 
-	out_file = open(file_path, "w")
+	out_file = open(config["output_directory"] + os.path.basename(file_path), "w")
 	in_header = False
 	for line in lines:
 		if line.find("---") == 0:
